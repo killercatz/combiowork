@@ -1,3 +1,3 @@
 # combiowork
 
-#I have no idea ._.
+I have no idea ._.
