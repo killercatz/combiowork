@@ -2,7 +2,6 @@
 # Q1
 
 library("SciViews") # For ln() function
-library("dplyr")
 
 cat("1.1 What is melting temperature of DNA mmolecules that is 450 bp long and has 50% GC content?")
 
