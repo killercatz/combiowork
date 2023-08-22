@@ -122,9 +122,10 @@ cat("Ans: The maximum hieght for 255lb person to classify as obese is ", height,
 cat("3.3 Suppose a person with weight W pounds and height H inches has a BMI of C.
 What is the BMI of a person with weight W and height 4/5H?\n")
 
-cat("Ans: The BMI will have different of 1.5625 for 4/5 of height\n")
-# I have no idea how to put this in to calculation
-# Take this for now ._.
+var1 <- 5^2 # 4/5 become 5/4 when switching side and ^2 from [height ^ 2]
+var2 <- 4^2 # 25/16 is new modifier for BMI formular
+cat("Ans: The new BMI formular will be ", (var1/var2) ,"* (703 * weight) / (height *2)\n")
+# 1.5625 is modifier for 4/5 of height for BMI formular
 
 # Q4
 
