@@ -1,13 +1,14 @@
 #default
 # Q1
 
+#install.packages('SciViews') # Do for first time
 library("SciViews") # For ln() function
 
 cat("1.1 What is melting temperature of DNA mmolecules that is 450 bp long and has 50% GC content?")
 
 default <- 1
 negative = default * -1
-Na <- 100
+Na <- 0.1 # 100 mM = 0.1 Mole
 GC <- 50
 length <- 450
 melting_temp <- 81.5 + (16.6 * log10(Na)) + (0.41 * GC) - (500 / length)
