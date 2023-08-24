@@ -19,13 +19,13 @@ cat("1.2 What is % GC content oof a DNA molecule 800 bp long and have melting te
 length <- 800
 melting_temp <- 92
 #GC% = (Tm-(81.5+16.6 * log10([NA]))+(500/length)/0.41
-GC <- (melting_temp-(81.5+16.6 * log10(Na)))+(500/length)/0.41
+GC <- (melting_temp-(81.5+16.6 * log10(Na))+(500/length))/0.41
 cat("\nAns: The % GC content of this DNA is ", round(GC, digit = 2), "%\n")
 
 cat("1.3 What is max melting °C of DNA sample that is 500 bp long?")
 
 length <- 500
-GC <- 100 #Since GC not indicate the maximum will be 100%
+GC <- 100 #GC for maximum will be 100%
 melting_temp <- 81.5 + (16.6 * log10(Na)) + (0.41 * GC) - (500 / length)
 cat("\nAns: The maximum melting tempurature is ", round(melting_temp, digit = 2), "°C\n")
 
@@ -50,6 +50,7 @@ drugC <- 35 / 100
 var1 <- 0.2 * -1
 var2 <- ln(drugC)
 t <- solve(var1, var2) # ln(0.35) = -0.2t
+
 
 cat("\nAns: The time take for the concentration of a Drug X to decrease ", round(t, digit = 2), "°hr/l\n")
 
