@@ -44,11 +44,11 @@ for (col in selected_columns) {
     
     cat('The analysis for ', target_species, ' penguin is:\n')
     cat(target_parameter_name, '>>>\n')
-    cat('Min: ', sapply(target_parameter, min), '\n')
+    cat('Min: ', sapply(target_parameter, min), ' ||| ')
     cat('Max: ', sapply(target_parameter, max), '\n')
-    cat('Mean: ', round(sapply(target_parameter, mean), 2), '\n')
+    cat('Mean: ', round(sapply(target_parameter, mean), 2), ' ||| ')
     cat('Mode: ', sapply(target_parameter, Mode), '\n')
-    cat('SD: ', round(sapply(target_parameter, sd), 2), '\n')
+    cat('SD: ', round(sapply(target_parameter, sd), 2), ' ||| ')
     cat('Range: ', range(target_parameter, na.rm = FALSE), '\n')
     
     n <- sapply(target_parameter, length)
