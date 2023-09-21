@@ -1,9 +1,8 @@
 library(seqinr)
-library(read.gb)
 library(shiny)
 
 ui <- fluidPage(
-  titlePanel("Shiny Text"),
+  titlePanel("FASTA and Genbank data display"),
   sidebarLayout(
     sidebarPanel(
       selectInput("data", "Choose a data type:",
@@ -22,7 +21,8 @@ ui <- fluidPage(
                   selected = "Homo sapiens")
     ),
     mainPanel(
-      htmlOutput('data')
+      htmlOutput('data'),
+      textOutput('gb')
     )
   )
 )
@@ -30,17 +30,25 @@ ui <- fluidPage(
 server <- function(input, output) {
   
   output$data <- renderUI({
+    if(input$data == 'FASTA') {
     selectfile = paste0("collagen_fasta_sequences/", input$species, "_Collagen_II.fasta")
     
-    HTML(paste(gsub("(.{50})", "\\1 \n", toupper(read.fasta(file = selectfile,
+    HTML(paste(gsub("(.{90})", "\\1 \n", toupper(read.fasta(file = selectfile,
                                    seqtype = "DNA", as.string = TRUE)))))
+    }
+    
+    else {
+    }
+    
+    
+  })
+  output$gb <- renderText({
+      selectfile = (paste0("collagen_genbank/", input$species, "_Collagen_II.gb"))
+      
+      paste0(gsub("(.{90})", "\\1 \n",readLines(selectfile)))
     
   })
   
 }
 
 shinyApp(ui = ui, server = server)
-
-read.table(file = "collagen_fasta_sequences/Accipitridae_Collagen_II.fasta")
-data <- system.file('collagen_genbank/Canis lupus_Collagen_II.gb')
-read.gb(File = 'collagen_genbank/Canis lupus_Collagen_II.gb', DNA = TRUE, Type = "full", Source = "File")
