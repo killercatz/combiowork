@@ -35,18 +35,18 @@ server <- function(input, output) {
     
     HTML(paste(gsub("(.{90})", "\\1 \n", toupper(read.fasta(file = selectfile,
                                    seqtype = "DNA", as.string = TRUE)))))
-    }
-    
-    else {
+    } else {
     }
     
     
   })
   output$gb <- renderText({
-      selectfile = (paste0("collagen_genbank/", input$species, "_Collagen_II.gb"))
+    if(input$data == 'Genbank') {
+      selectfile = paste0("collagen_genbank/", input$species, "_Collagen_II.gb")
       
-      paste0(gsub("(.{90})", "\\1 \n",readLines(selectfile)))
-    
+      paste0(gsub("(.{110})", "\\1 \n",readLines(selectfile)))
+    } else {
+    }
   })
   
 }
