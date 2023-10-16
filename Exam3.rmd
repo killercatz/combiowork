@@ -1,0 +1,163 @@
+---
+title: "Data analysis and visualization"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(DT)
+library(plotly)
+library(dplyr)
+library(DescTools)
+data <- read.csv("formatted_exam_data.csv")
+primer <- c('G7', 'G9', 'G21', 'G22', 'G23', 'G24', 'G25', 'G26', 'G27', 'G28', 'G29',
+           'G30', 'G31', 'G32', 'G33', 'G35', 'G36', 'G40', 'G42')
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Sunburst Graph (5 Sample) * Data from Band 1
+
+```{r}
+for(x in 1:37) {
+  
+  if(x == 1) {
+  datavalue = primer
+  y <- 1
+  
+  MW1 <- data %>% filter(Sample_name == 'MW1') %>% select(Band1)
+  G1T1 <- data %>% filter(Sample_name == 'G1T1') %>% select(Band1)
+  G1T2 <- data %>% filter(Sample_name == 'G1T2') %>% select(Band1)
+  G1T3_1 <- data %>% filter(Sample_name == 'G1T3-1') %>% select(Band1)
+  G1T3_2 <- data %>% filter(Sample_name == 'G1T3-2') %>% select(Band1) 
+  
+  data1 <- paste0("MW1 " , MW1$Band1, " g/mol")
+  data2 <- paste0("G1T1 ", G1T1$Band1, " g/mol")
+  data3 <- paste0("G1T2 ", G1T2$Band1, " g/mol")
+  data4 <- paste0("G1T3-1 ", G1T3_1$Band1, " g/mol")
+  data5 <- paste0("G1T3-2 ", G1T3_2$Band1, " g/mol")
+  }
+
+  if(x < 19) {
+    next
+  } else {
+    datavalue <- append(datavalue, data1[y])
+    datavalue <- append(datavalue, data2[y])
+    datavalue <- append(datavalue, data3[y])
+    datavalue <- append(datavalue, data4[y])
+    datavalue <- append(datavalue, data5[y])
+    y <- y + 1
+  }
+}
+
+sunburstdataframe <- data.frame(
+  ids = c('G7', 'G9', 'G21', 'G22', 'G23', 'G24', 'G25', 'G26', 'G27', 'G28', 'G29',
+          'G30', 'G31', 'G32', 'G33', 'G35', 'G36', 'G40', 'G42',
+          'G7MW1', 'G9MW1', 'G21MW1', 'G22MW1', 'G23MW1', 'G24MW1', 'G25MW1', 'G26MW1',
+          'G27MW1', 'G28MW1', 'G29MW1', 'G30MW1', 'G31MW1', 'G32MW1', 'G33MW1', 'G35MW1',
+          'G36MW1', 'G40MW1', 'G42MW1',
+          'G7G1T1', 'G9G1T1', 'G21G1T1', 'G22G1T1', 'G23G1T1', 'G24G1T1', 'G25G1T1', 'G26G1T1',
+          'G27G1T1', 'G28G1T1', 'G29G1T1', 'G30G1T1', 'G31G1T1', 'G32G1T1', 'G33G1T1', 'G35G1T1',
+          'G36G1T1', 'G40G1T1', 'G42G1T1',
+          'G7G1T2', 'G9G1T2', 'G21G1T2', 'G22G1T2', 'G23G1T2', 'G24G1T2', 'G25G1T2', 'G26G1T2',
+          'G27G1T2', 'G28G1T2', 'G29G1T2', 'G30G1T2', 'G31G1T2', 'G32G1T2', 'G33G1T2', 'G35G1T2',
+          'G36G1T2', 'G40G1T2', 'G42G1T2',          
+          'G7G1T3-1', 'G9G1T3-1', 'G21G1T3-1', 'G22G1T3-1', 'G23G1T3-1', 'G24G1T3-1', 'G25G1T3-1', 'G26G1T3-1',
+          'G27G1T3-1', 'G28G1T3-1', 'G29G1T3-1', 'G30G1T3-1', 'G31G1T3-1', 'G32G1T3-1', 'G33G1T3-1', 'G35G1T3-1',
+          'G36G1T3-1', 'G40G1T3-1', 'G42G1T3-1',
+          'G7G1T3-2', 'G9G1T3-2', 'G21G1T3-2', 'G22G1T3-2', 'G23G1T3-2', 'G24G1T3-2', 'G25G1T3-2', 'G26G1T3-2',
+          'G27G1T3-2', 'G28G1T3-2', 'G29G1T3-2', 'G30G1T3-2', 'G31G1T3-2', 'G32G1T3-2', 'G33G1T3-2', 'G35G1T3-2',
+          'G36G1T3-2', 'G40G1T3-2', 'G42G1T3-2'),
+  labels = c('G7', 'G9', 'G21', 'G22', 'G23', 'G24', 'G25', 'G26', 'G27', 'G28', 'G29',
+             'G30', 'G31', 'G32', 'G33', 'G35', 'G36', 'G40', 'G42',
+             'MW1', 'MW1', 'MW1','MW1', 'MW1', 'MW1','MW1', 'MW1', 'MW1','MW1', 'MW1', 'MW1',
+             'MW1', 'MW1', 'MW1','MW1', 'MW1', 'MW1', 'MW1','G1T1', 'G1T1', 'G1T1','G1T1', 'G1T1',
+             'G1T1','G1T1', 'G1T1', 'G1T1', 'G1T1', 'G1T1', 'G1T1','G1T1', 'G1T1', 'G1T1', 'G1T1','G1T1', 
+             'G1T1', 'G1T1','G1T2', 'G1T2', 'G1T2','G1T2', 'G1T2', 'G1T2', 'G1T2', 'G1T2', 'G1T2','G1T2',
+             'G1T2', 'G1T2', 'G1T2','G1T2', 'G1T2', 'G1T2','G1T2', 'G1T2', 'G1T2','G1T3-1', 'G1T3-1', 'G1T3-1',
+             'G1T3-1', 'G1T3-1', 'G1T3-1', 'G1T3-1', 'G1T3-1', 'G1T3-1','G1T3-1', 'G1T3-1', 'G1T3-1', 'G1T3-1',
+             'G1T3-1', 'G1T3-1', 'G1T3-1','G1T3-1', 'G1T3-1', 'G1T3-1', 'G1T3-2', 'G1T3-2', 'G1T3-2','G1T3-2',
+             'G1T3-2', 'G1T3-2', 'G1T3-2', 'G1T3-2', 'G1T3-2','G1T3-2', 'G1T3-2', 'G1T3-2', 'G1T3-2','G1T3-2',
+             'G1T3-2', 'G1T3-2','G1T3-2', 'G1T3-2', 'G1T3-2'),
+  parents = c("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+              'G7', 'G7', 'G7', 'G7', 'G7', 'G9', 'G9', 'G9', 'G9', 'G9', 'G21', 'G21', 'G21', 'G21', 'G21',
+              'G22', 'G22', 'G22', 'G22', 'G22', 'G23', 'G23', 'G23', 'G23', 'G23',
+              'G24','G24','G24','G24','G24', 'G25', 'G25', 'G25', 'G25', 'G25',
+              'G26','G26','G26','G26','G26', 'G27', 'G27', 'G27', 'G27', 'G27', 'G28', 'G28', 'G28', 'G28', 'G28',
+              'G29', 'G29', 'G29', 'G29', 'G29', 'G30', 'G30', 'G30', 'G30',
+              'G30', 'G31', 'G31', 'G31', 'G31', 'G31', 'G32', 'G32', 'G32', 'G32', 'G32',
+              'G33', 'G33', 'G33', 'G33', 'G33', 'G35', 'G35', 'G35', 'G35', 'G35',
+              'G36', 'G36', 'G36', 'G36', 'G36', 'G40', 'G40', 'G40', 'G40', 'G40', 'G42',
+              'G42', 'G42', 'G42', 'G42'),
+  value = datavalue, stringsAsFactors = FALSE)
+
+sunburstchart <- plot_ly()
+sunburstchart <- sunburstchart %>% add_trace(type = 'sunburst', 
+                                             ids = sunburstdataframe$ids, 
+                                             labels = sunburstdataframe$value, 
+                                             parents = sunburstdataframe$parents,
+                                             domain=list(column=1),maxdepth=2,
+                                             insidetextorientation='radial')
+sunburstchart
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Primer Analysis * Data from Band 1
+
+```{r}
+for(x in 1:19) {
+  if(x == 1) {
+    appendframe <- data.frame(
+      Primer = c(""), Min = c(''), Max = c(''), Mean = c(''), Mode = c(''), 
+      SD = c(''), Lower.Bound = c(''), Upper.Bound = c('')
+    )
+    
+    appendframe <- appendframe[-1,]
+  }
+  
+  selectedprimer <- primer[x]
+  
+  primerdata <- data %>% filter(Primer == selectedprimer) %>% select(Band1)
+  names(primerdata) <- NULL
+  
+  primermin <- sapply(primerdata, min)
+  primermax <- sapply(primerdata, max)
+  primermean <- round(sapply(primerdata, mean), 2)
+  primermode <- sapply(primerdata, min)
+  primerSD <- round(sapply(primerdata, sd), 2)
+  
+  n <- sapply(primerdata, length)
+  standard_error <- sapply(primerdata, sd) / sqrt(n)
+  degreesf <- n - 1
+  t_score <- qt(p=0.05/2, df=degreesf,lower.tail=F)
+  margin_error <- t_score * standard_error
+  
+  primerlower <- round(sapply(primerdata, mean) - margin_error, 2)
+  primerupper <- round(sapply(primerdata, mean) + margin_error, 2)
+  
+  newframe <- data.frame(
+    Primer = c(selectedprimer), Min = c(primermin), Max = c(primermax), 
+    Mean = c(primermean), Mode = c(primermode), SD = c(primerSD), 
+    Lower.Bound = c(primerlower), Upper.Bound = c(primerupper)
+  )
+  
+  appendframe <- rbind(appendframe, newframe)
+  
+  if(x == 19) {
+  print(appendframe)
+  }
+}
+```
+
+### Data Table View
+
+```{r}
+DT::datatable(data, rownames = FALSE)
+```
+
